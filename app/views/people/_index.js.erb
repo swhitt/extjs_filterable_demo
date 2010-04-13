@@ -1,0 +1,54 @@
+Ext.ns('Demo.people');
+
+Demo.people.store = function() {
+  return(new Ext.data.JsonStore({
+    url: '/people.js',
+    storeId: 'peopleStore',
+    root: 'data',
+    fields: ['name', 'address', 'email', 'phone'],
+    remoteSort: true,
+    restful: true,
+    autoLoad: true
+  }));
+}
+
+Demo.people.grid = function() {
+  var theStore = this.store();
+  
+  var filters = new Ext.ux.grid.GridFilters({
+    encode: false,
+    filters: [
+      {type: 'string', dataIndex: 'name'},
+      {type: 'list', dataIndex: 'address', phpMode: true, options: ['Trail', 'Mountain', 'Bypass', 'Dam', 'Island']}
+    ]
+  });
+  
+  var grid = new Ext.grid.GridPanel({
+    id: 'peopleGrid',
+    store: theStore,
+    columns: [
+      {header: 'Name',    width: 200, sortable: true, dataIndex:  'name', id: 'name'},
+      {header: 'Address', width: 150,  sortable: true, dataIndex:  'address'},
+      {header: 'Email',   width: 200,  sortable: true, dataIndex:  'email'},
+      {header: 'Phone',   width: 150,  sortable: true, dataIndex:  'phone'}
+    ],
+    plugins: [filters],
+    stripeRows: true,
+    autoExpandColumn: 'name',
+    title: 'People',
+    bbar: new Ext.PagingToolbar({
+      pageSize: 50,
+      store: theStore,
+      displayInfo: true,
+      displayMsg: 'Displaying people {0} - {1} of {2}',
+      emptyMsg: 'No people to display'
+    }),
+    height: 500
+  });
+  return(grid);
+}
+
+Ext.onReady(function() {
+  var peopleGrid = Demo.people.grid();
+  peopleGrid.render('people-grid');    
+});

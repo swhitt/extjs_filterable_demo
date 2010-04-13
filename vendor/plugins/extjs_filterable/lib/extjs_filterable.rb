@@ -61,7 +61,7 @@ module ExtjsFilterable
       if opts[:sort].blank?
         sort = extjs_filterable_options[:default_sort] || 'created_at'
       else
-        if extjs_filterable_options[:columns][opts[:sort]]
+        if extjs_filterable_options[:columns][opts[:sort].to_sym]
           sort = "#{extjs_filterable_options[:columns][opts[:sort]]} #{opts[:dir]}"
         else
           sort = "#{opts[:sort]} #{opts[:dir]}"
@@ -76,7 +76,7 @@ module ExtjsFilterable
         type  = f[:data][:type]
         value = f[:data][:value]
 
-        custom_handler = extjs_filterable_options[:special_filters][field]
+        custom_handler = extjs_filterable_options[:special_filters][field.to_sym]
 
         if custom_handler
           if custom_handler.kind_of? Proc
@@ -87,7 +87,7 @@ module ExtjsFilterable
             raise ArgumentError, "custom handler for #{field} not Proc or Symbol" 
           end
         else
-          field = extjs_filterable_options[:columns][field]   if extjs_filterable_options[:columns][field]
+          field = extjs_filterable_options[:columns][field.to_sym]   if extjs_filterable_options[:columns][field.to_sym]
       
           case type
           when 'string'

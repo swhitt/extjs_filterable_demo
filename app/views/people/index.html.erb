@@ -3,52 +3,17 @@
 <% javascript 'ext-3.2.0/ext-all-debug' %>
 <% stylesheet '/javascripts/ext-3.2.0/resources/css/ext-all.css' %>
 
+<% stylesheet '/javascripts/ext-3.2.0/examples/ux/gridfilters/css/GridFilters.css' %>
+<% javascript 'ext-3.2.0/examples/ux/gridfilters/GridFilters.js' %>
+<% javascript 'ext-3.2.0/examples/ux/gridfilters/filter/Filter.js' %>
+<% javascript 'ext-3.2.0/examples/ux/gridfilters/filter/ListFilter.js' %>
+<% javascript 'ext-3.2.0/examples/ux/gridfilters/menu/ListMenu.js' %>
+<% javascript 'ext-3.2.0/examples/ux/gridfilters/filter/StringFilter.js' %>
+
+
+
 <% javascript_tag do -%>
-  Ext.ns('Demo.people');
-  
-  Demo.people.store = function() {
-    return(new Ext.data.JsonStore({
-      url: '/people.js',
-      storeId: 'peopleStore',
-      root: 'data',
-      fields: ['name', 'address', 'email', 'phone'],
-      remoteSort: true,
-      restful: true,
-      autoLoad: true
-    }));
-  }
-  
-  Demo.people.grid = function() {
-    var theStore = this.store()
-    var grid = new Ext.grid.GridPanel({
-      id: 'peopleGrid',
-      store: theStore,
-      columns: [
-        {header: 'Name',    width: 200, sortable: true, dataIndex:  'name', id: 'name'},
-        {header: 'Address', width: 150,  sortable: true, dataIndex:  'address'},
-        {header: 'Email',   width: 200,  sortable: true, dataIndex:  'email'},
-        {header: 'Phone',   width: 150,  sortable: true, dataIndex:  'phone'}
-      ],
-      stripeRows: true,
-      autoExpandColumn: 'name',
-      title: 'People',
-      bbar: new Ext.PagingToolbar({
-        pageSize: 50,
-        store: theStore,
-        displayInfo: true,
-        displayMsg: 'Displaying people {0} - {1} of {2}',
-        emptyMsg: 'No people to display'
-      }),
-      height: 500
-    });
-    return(grid);
-  }
-
-  Ext.onReady(function() {
-    var peopleGrid = Demo.people.grid();
-    peopleGrid.render('people-grid');    
-  });
-
+  <%= render :partial => 'index.js' %>
 <% end -%>
 
 <div id="people-grid"></div>
